@@ -1,0 +1,8 @@
+description = 'Reactor-Spring'
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework:spring-web'
+    implementation "io.projectreactor:reactor-bus:2.0.8.RELEASE"
+    implementation "io.projectreactor:reactor-core:2.0.8.RELEASE"
+}

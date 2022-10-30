@@ -3,3 +3,5 @@ rootProject.name = 'fullstack-course'
 include(':reactive-programming')
 include(':reactor-core')
 project(":reactor-core").projectDir = file('reactive-programming/reactor-core')
+include(':reactor-spring')
+project(":reactor-spring").projectDir = file('reactive-programming/reactor-spring')
