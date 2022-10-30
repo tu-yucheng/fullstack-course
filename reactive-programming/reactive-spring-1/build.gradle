@@ -1,0 +1,45 @@
+description = 'Reactive Spring'
+
+ext {
+    geronimoJson = '1.0'
+}
+
+task copyFile(type: Copy) {
+    from 'src/main/assets'
+    into 'build/classes/java/main/assets'
+    finalizedBy processResources
+}
+
+processResources {
+    dependsOn copyFile
+}
+
+springBoot {
+    mainClass = 'cn.tuyucheng.taketoday.reactive.Spring5ReactiveApplication'
+}
+
+sourceSets {
+    main {
+        resources { srcDirs = ['src/main/resources', "src/main/webapp"] }
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-tomcat'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'javax.json.bind:javax.json.bind-api'
+    implementation "org.apache.geronimo.specs:geronimo-json_1.1_spec:${geronimoJson}"
+    implementation 'org.apache.johnzon:johnzon-jsonb'
+    implementation 'org.apache.commons:commons-lang3'
+    implementation 'org.springframework.boot:spring-boot-devtools'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.session:spring-session-core'
+    implementation 'org.springframework.session:spring-session-data-redis'
+    testImplementation "org.apache.commons:commons-collections4:${commonsCollections4}"
+    implementation 'io.reactivex.rxjava2:rxjava'
+    implementation 'org.apache.httpcomponents:httpclient'
+}
