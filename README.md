@@ -6,7 +6,7 @@
 
 ![Language](https://img.shields.io/badge/language-java-brightgreen)
 ![Java CI](https://github.com/iluwatar/java-design-patterns/workflows/Java%20CI/badge.svg)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=tu-yucheng_fullstack-tutorial&metric=ncloc)](https://sonarcloud.io/project/overview?id=tu-yucheng_fullstack-tutorial)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=tu-yucheng_fullstack-course&metric=ncloc)](https://sonarcloud.io/project/overview?id=tu-yucheng_fullstack-course)
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
 # Getting Started
