@@ -12,3 +12,4 @@ This module contains articles about Reactor Core.
 - [What Does Mono.defer() Do?](docs/Reactor_MonoDefer.md)
 - [Handling Exceptions in Project Reactor](docs/Reactor_Exception.md)
 - [Difference Between Flux.create and Flux.generate](docs/Reactor_Create_Generate.md)
+- [Difference Between Flux and Mono](docs/Reactor_Mono_Flux.md)
