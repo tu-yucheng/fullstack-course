@@ -1,1 +1,5 @@
 rootProject.name = 'fullstack-course'
+
+include(':reactive-programming')
+include(':reactor-core')
+project(":reactor-core").projectDir = file('reactive-programming/reactor-core')

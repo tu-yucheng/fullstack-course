@@ -1,0 +1,6 @@
+description = 'Reactor核心'
+
+dependencies {
+    implementation "io.projectreactor:reactor-core:${reactor}"
+    implementation "io.projectreactor:reactor-test:${reactor}"
+}
