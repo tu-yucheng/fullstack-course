@@ -1,0 +1,157 @@
+// 构建Gradle脚本自身需要的资源，可以声明的资源包括依赖项、第三方插件、maven仓库地址等。
+buildscript {
+    ext {
+        springboot = '2.6.1'
+        springcloud = '2021.0.1'
+        spring = '5.3.13'
+        h2 = '1.4.200'
+        lombok = '1.18.22'
+        aspectjweaver = '1.9.7'
+
+        hibernate = '5.6.1.Final'
+        hibernateValidator = '7.0.2.Final'
+
+        assertj = '3.21'
+        junitJupiter = '5.8.1'
+        junitPlatform = '1.8.1'
+        junit4 = '4.13.2'
+        hamcrest = '2.2'
+        hamcrestAll = '1.3'
+        mockito = '4.0.0'
+        jmh = '1.33'
+
+        commonsCollections4 = '4.4'
+        commonsIo = '2.11.0'
+        commonsLang = '2.6'
+        commonsLang3 = '3.12.0'
+        commonsCli = '1.4'
+        commonsFileupload = '1.4'
+
+        httpcore = '4.4.14'
+        httpclient = '4.5.13'
+        reactor = '3.4.12'
+    }
+
+    repositories {
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://repo.spring.io/milestone' }
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springboot}")
+    }
+}
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.6.1'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id "jacoco"
+}
+
+description 'Java全栈教程'
+
+// 全局配置，作用于所有子模块
+allprojects {
+    group project_group
+    version project_version
+
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+
+    repositories {
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://repo.spring.io/milestone' }
+        maven { url 'https://repo.maven.apache.org/maven2/' }
+        mavenCentral()
+    }
+}
+
+apply from: 'dependencies.gradle'
+def env = System.getProperty("dev") ?: 'dev'
+
+// 配置所有子项目
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'java-library'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'jacoco'
+
+    sourceCompatibility = project_jdk
+    targetCompatibility = project_jdk
+
+    // 公共依赖
+    dependencies {
+        implementation 'io.rest-assured:rest-assured'
+        implementation 'org.slf4j:slf4j-api'
+        implementation 'ch.qos.logback:logback-classic'
+        implementation 'ch.qos.logback:logback-core'
+        implementation 'org.slf4j:jcl-over-slf4j'
+        implementation 'com.google.guava:guava'
+        testImplementation 'org.junit.jupiter:junit-jupiter-api'
+        testImplementation 'org.junit.jupiter:junit-jupiter-params'
+        testImplementation 'org.junit.vintage:junit-vintage-engine'
+        testImplementation 'org.junit.jupiter:junit-jupiter-engine'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testImplementation 'org.assertj:assertj-core'
+        testImplementation 'org.hamcrest:hamcrest'
+        testImplementation 'org.hamcrest:hamcrest-all'
+        implementation 'org.jetbrains:annotations'
+        implementation 'org.projectlombok:lombok'
+        testImplementation 'org.mockito:mockito-core'
+        testImplementation 'org.apache.maven.surefire:surefire-logger-api'
+
+        implementation "com.h2database:h2:${h2}"
+
+        compileOnly "org.projectlombok:lombok:${lombok}"
+        annotationProcessor "org.projectlombok:lombok:${lombok}"
+        testCompileOnly "org.projectlombok:lombok:${lombok}"
+        testAnnotationProcessor "org.projectlombok:lombok:${lombok}"
+    }
+
+    dependencyManagement {
+        dependencies {
+            for (depJar in rootProject.ext.dependencies) {
+                dependency depJar.value
+            }
+        }
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${springboot}"
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springcloud}"
+        }
+    }
+
+    sourceSets {
+        main {
+            java { srcDirs = ['src/main/java'] }
+            resources { srcDirs = ['src/main/resources', "src/main/profiles/$env"] }
+        }
+        test {
+            java { srcDirs = ['src/test/java', 'src/test/groovy'] }
+            resources { srcDirs = ['src/test/resources'] }
+        }
+    }
+
+    test {
+        useJUnitPlatform()
+        finalizedBy jacocoTestReport // report is always generated after tests run
+    }
+
+    jacocoTestReport {
+        dependsOn test // tests are required to run before generating the report
+        reports {
+            xml.required = false
+            csv.required = false
+            html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+        }
+    }
+
+    jacoco {
+        toolVersion = '0.8.8'
+        reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+    }
+
+    [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+}
