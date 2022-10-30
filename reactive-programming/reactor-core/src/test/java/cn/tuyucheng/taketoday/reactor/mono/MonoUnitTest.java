@@ -78,4 +78,77 @@ class MonoUnitTest {
 				.flatMapIterable(list -> list)
 				.log();
 	}
+
+	@Test
+	void whenEmptyList_thenMonoDeferExecuted() {
+		Mono<List<String>> emptyList = Mono.defer(this::monoOfEmptyList);
+
+		// Empty list, hence Mono publisher in switchIfEmpty executed after condition
+		// evaluation
+		Flux<String> emptyListElements = emptyList.flatMapIterable(l -> l)
+				.switchIfEmpty(Mono.defer(() -> sampleMsg("EmptyList")))
+				.log();
+
+		StepVerifier.create(emptyListElements)
+				.expectNext("EmptyList")
+				.verifyComplete();
+	}
+
+	@Test
+	void whenNonEmptyList_thenMonoDeferNotExecuted() {
+		Mono<List<String>> nonEmptyList = Mono.defer(this::monoOfList);
+
+		// Non empty list, hence Mono publisher in switchIfEmpty won't evaluated.
+		Flux<String> listElements = nonEmptyList.flatMapIterable(l -> l)
+				.switchIfEmpty(Mono.defer(() -> sampleMsg("NonEmptyList")))
+				.log();
+
+		StepVerifier.create(listElements)
+				.expectNext("one", "two", "three", "four")
+				.verifyComplete();
+	}
+
+	private Mono<List<String>> monoOfEmptyList() {
+		List<String> list = new ArrayList<>();
+		return Mono.just(list);
+	}
+
+	@Test
+	void whenUsingMonoJust_thenEagerEvaluation() throws InterruptedException {
+		Mono<String> msg = sampleMsg("Eager Publisher");
+
+		LOGGER.debug("Intermediate Test Message....");
+
+		StepVerifier.create(msg)
+				.expectNext("Eager Publisher")
+				.verifyComplete();
+
+		Thread.sleep(5000);
+
+		StepVerifier.create(msg)
+				.expectNext("Eager Publisher")
+				.verifyComplete();
+	}
+
+	@Test
+	void whenUsingMonoDefer_thenLazyEvaluation() throws InterruptedException {
+		Mono<String> deferMsg = Mono.defer(() -> sampleMsg("Lazy Publisher"));
+
+		LOGGER.debug("Intermediate Test Message....");
+
+		StepVerifier.create(deferMsg)
+				.expectNext("Lazy Publisher")
+				.verifyComplete();
+
+		Thread.sleep(5000);
+
+		StepVerifier.create(deferMsg)
+				.expectNext("Lazy Publisher")
+				.verifyComplete();
+	}
+
+	private Mono<String> sampleMsg(String str) {
+		LOGGER.debug("Call to Retrieve Sample Message!! --> {} at: {}", str, System.currentTimeMillis());
+		return Mono.just(str);
+	}
 }
