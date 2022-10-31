@@ -1,0 +1,23 @@
+description = 'Cucumber'
+
+ext {
+    cucumber = '7.0.0'
+    cucumberReporting = '5.4.0'
+    selenium = '3.141.59'
+    webdrivermanager = '4.3.1'
+}
+
+dependencies {
+    implementation "io.cucumber:cucumber-java:${cucumber}"
+    implementation "io.cucumber:cucumber-junit:${cucumber}"
+    implementation "io.cucumber:cucumber-picocontainer:${cucumber}"
+    implementation 'com.google.code.gson:gson'
+    implementation "net.masterthought:cucumber-reporting:${cucumberReporting}"
+    implementation 'io.cucumber:cucumber-jvm-deps:1.0.6'
+    implementation "io.cucumber:cucumber-junit-platform-engine:${cucumber}"
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation "org.seleniumhq.selenium:selenium-java:${selenium}"
+    implementation "org.seleniumhq.selenium:selenium-support:${selenium}"
+    testImplementation "io.github.bonigarcia:webdrivermanager:${webdrivermanager}"
+    testImplementation "org.junit.platform:junit-platform-suite:${junitPlatform}"
+}
