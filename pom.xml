@@ -9,9 +9,10 @@
     <version>1.0.0</version>
     <artifactId>fullstack-course</artifactId>
     <packaging>pom</packaging>
-    
+
     <modules>
         <module>reactive-programming</module>
+		<module>software-test</module>
     </modules>
 
     <properties>
