@@ -19,5 +19,6 @@
         <module>reactor-core</module>
 		<module>reactor-spring</module>
 		<module>reactive-spring-1</module>
+		<module>reactive-spring-2</module>
     </modules>
 </project>
