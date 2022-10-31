@@ -1,5 +1,9 @@
 rootProject.name = 'fullstack-course'
 
+rootProject.children.each { project ->
+    project.name = $ { project.name }
+}
+
 include(':reactive-programming')
 include(':reactor-core')
 project(":reactor-core").projectDir = file('reactive-programming/reactor-core')
