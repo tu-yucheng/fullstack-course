@@ -17,3 +17,5 @@ project(":reactive-spring-2").projectDir = file('reactive-programming/reactive-s
 include(':software-test')
 include(':cucumber')
 project(":cucumber").projectDir = file('software-test/cucumber')
+include(':junit5')
+project(":junit5").projectDir = file('software-test/junit5')
