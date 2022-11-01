@@ -4,18 +4,16 @@ rootProject.children.each { project ->
     project.name = $ { project.name }
 }
 
-include(':reactive-programming')
-include(':reactor-core')
-project(":reactor-core").projectDir = file('reactive-programming/reactor-core')
-include(':reactor-spring')
-project(":reactor-spring").projectDir = file('reactive-programming/reactor-spring')
-include(':reactive-spring-1')
-project(":reactive-spring-1").projectDir = file('reactive-programming/reactive-spring-1')
-include(':reactive-spring-2')
-project(":reactive-spring-2").projectDir = file('reactive-programming/reactive-spring-2')
+include 'reactive-programming:reactor-core'
+findProject(":reactive-programming:reactor-core")?.name = 'reactor-core'
+include 'reactive-programming:reactor-spring'
+findProject(":reactive-programming:reactor-spring")?.name = 'reactor-spring'
+include 'reactive-programming:reactive-spring-1'
+findProject(":reactive-programming:reactive-spring-1")?.name = 'reactive-spring-1'
+include 'reactive-programming:reactive-spring-2'
+findProject(":reactive-programming:reactive-spring-2")?.name = 'reactive-spring-2'
 
-include(':software-test')
-include(':cucumber')
-project(":cucumber").projectDir = file('software-test/cucumber')
-include(':junit5')
-project(":junit5").projectDir = file('software-test/junit5')
+include 'software-test:cucumber'
+findProject(':software-test:cucumber')?.name = 'cucumber'
+include 'software-test:junit5'
+findProject(':software-test:junit5')?.name = 'junit5'
