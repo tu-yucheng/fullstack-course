@@ -126,10 +126,10 @@ subprojects {
     sourceSets {
         main {
             java { srcDirs = ['src/main/java'] }
-            resources { srcDirs = ['src/main/resources', "src/main/profiles/$env"] }
+            resources { srcDirs = ['src/main/resources'] }
         }
         test {
-            java { srcDirs = ['src/test/java', 'src/test/groovy'] }
+            java { srcDirs = ['src/test/java'] }
             resources { srcDirs = ['src/test/resources'] }
         }
     }
