@@ -1,0 +1,11 @@
+description = 'Mockito'
+
+ext {
+    mockito = '4.0.0'
+    jackson = '2.13.0'
+}
+
+dependencies {
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jackson}"
+    testImplementation "org.mockito:mockito-junit-jupiter:${mockito}"
+}
